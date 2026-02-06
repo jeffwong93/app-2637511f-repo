@@ -4,6 +4,7 @@ pipeline {
       stage('stg1-2637511f') {
         steps { echo "stg1_2637511f: Preparation check passes" }
       }
+
       stage('stg2-2637511f') {
         steps {
             sh "curl -Is http://localhost:33100 | head -n 1 > /tmp/testsvr-result-file"
@@ -20,6 +21,17 @@ pipeline {
            }
         }
       }
+
+      stage('stg3-2637511f') {
+        steps {
+            sh "docker image rm testsvr_image || true"
+            sh "docker commit testsvr_2637511f testsvr_image"
+            sh "bolt script run opr_script_2637511f -- targets testsvr_2637511f"
+            echo "stg3_2637511f: testsvr is backup and updated"
+        }
+      }
+
+
     }
 
 
