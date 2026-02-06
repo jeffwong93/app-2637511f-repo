@@ -1,0 +1,11 @@
+pipeline {
+    agent any
+    stages {
+      stage('stg1-2637511f') {
+          steps { echo "stg1_2637511f: Preparation check passes" }
+      }
+    }
+
+
+
+}
