@@ -1,0 +1,10 @@
+#!/bin/bash
+
+puppet resource package apache2 ensure=installed
+puppet resource service apache2 ensure=running
+
+puppet resource file "/tmp/work/2637511f" ensure=absent
+puppet resource file "/tmp/work/2637511f" ensure=directory
+
+git clone https://github.com/jeffwong93/app-2637511f-repo.git /tmp/work/2637511f
+cp /tmp/work/2637511f/new_2637511f_index.html /var/www/html/index.html
