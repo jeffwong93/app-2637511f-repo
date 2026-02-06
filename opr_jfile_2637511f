@@ -2,7 +2,20 @@ pipeline {
     agent any
     stages {
       stage('stg1-2637511f') {
-          steps { echo "stg1_2637511f: Preparation check passes" }
+        steps { echo "stg1_2637511f: Preparation check passes" }
+      }
+      stage('stg2-2637511f') {
+        steps {
+            sh "curl -Is http://localhost:33100 | head -n 1 > /tmp/testsvr-result-file"
+            def result = readFile('/tmp/testsvr-result-file')
+            if (result.contains("200 OK")) {
+                echo "stg2_2637511f: testsvr's website is running"
+                input message: "Proceed to update testsvr server?"
+            } else {
+                echo "stg2_2637511f: testsvr's website is down"
+                error("Aborting: UAT is down")
+            }
+        }
       }
     }
 
