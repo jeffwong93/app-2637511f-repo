@@ -48,6 +48,14 @@ pipeline {
         }
       }
 
+      stage('stg5-2637511f') {
+        steps {
+            sh "docker image rm appsvr_image || true"
+            sh "docker commit appsvr_2637511f appsvr_image"
+            sh "/usr/local/bin/bolt script run opr_script_2637511f --targets docker://appsvr_2637511f"
+            echo "stg5_2637511f: appsvr web server is backup and updated"
+        }
+      }
 
     }
 
