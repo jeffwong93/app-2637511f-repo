@@ -16,7 +16,7 @@ pipeline {
                     input message: "Proceed to update testsvr server?"
                 } else {
                     echo "stg2_2637511f: testsvr's website is down"
-                    error("Aborting: UAT is down")
+                    error("Aborting: testsvr's website is down")
                 }
            }
         }
@@ -28,6 +28,23 @@ pipeline {
             sh "docker commit testsvr_2637511f testsvr_image"
             sh "/usr/local/bin/bolt script run opr_script_2637511f --targets docker://testsvr_2637511f"
             echo "stg3_2637511f: testsvr is backup and updated"
+        }
+      }
+
+      stage('stg4-2637511f') {
+        steps {
+            sh "curl -Is http://localhost:33100 | head -n 1 > /tmp/testsvr-result-file"
+
+           script {
+                def result = readFile('/tmp/testsvr-result-file')
+                if (result.contains("200 OK")) {
+                    echo "stg4_2637511f: testsvr's website is running"
+                    input message: "Proceed to update testsvr server?"
+                } else {
+                    echo "stg4_2637511f: testsvr's website is down"
+                    error("Aborting: testsvr's website is down")
+                }
+           }
         }
       }
 
