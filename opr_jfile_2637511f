@@ -57,6 +57,23 @@ pipeline {
         }
       }
 
+      stage('stg6-2637511f') {
+        steps {
+            sh "curl -Is http://localhost:33200 | head -n 1 > /tmp/appsvr-result-file"
+
+           script {
+                def result = readFile('/tmp/appsvr-result-file')
+                if (result.contains("200 OK")) {
+                    echo "stg6_2637511f: appsvr website is running"
+                    input message: "Proceed to update testsvr server?"
+                } else {
+                    def choice = input message: 'PROD Failed', parameters: [choice(choices: ['Trigger roll back', 'Troubleshooting'], name: 'Action')]
+                    echo "stg6_2637511f: ${choice} starts"
+                }
+           }
+        }
+      }
+
     }
 
 
