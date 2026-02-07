@@ -13,6 +13,7 @@ pipeline {
                 def result = readFile('/tmp/testsvr-result-file')
                 if (result.contains("200 OK")) {
                     echo "stg2_2637511f: testsvr's website is running"
+                    sh "cat /tmp/testsvr-result-file"
                     input message: "Proceed to update testsvr server?"
                 } else {
                     echo "stg2_2637511f: testsvr's website is down"
