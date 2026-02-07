@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -rf /tmp/work/2637511f
 
 mkdir -p /tmp/work/2637511f
 apt-get update && apt-get install -y git
