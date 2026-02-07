@@ -40,6 +40,7 @@ pipeline {
                 def result = readFile('/tmp/testsvr-result-file')
                 if (result.contains("200 OK")) {
                     echo "stg4_2637511f: testsvr's website is running"
+                    sh "cat /tmp/testsvr-result-file"
                     input message: "Proceed to update testsvr server?"
                 } else {
                     echo "stg4_2637511f: testsvr's website is down"
@@ -66,6 +67,7 @@ pipeline {
                 def result = readFile('/tmp/appsvr-result-file')
                 if (result.contains("200 OK")) {
                     echo "stg6_2637511f: appsvr website is operational"
+                    sh "cat /tmp/appsvr-result-file"
                 } else {
                     def choice = input message: 'PROD Failed', parameters: [choice(choices: ['Trigger roll back', 'Troubleshooting'], name: 'Action')]
                     echo "stg6_2637511f: ${choice} starts"
