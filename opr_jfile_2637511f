@@ -26,7 +26,7 @@ pipeline {
         steps {
             sh "docker image rm testsvr_image || true"
             sh "docker commit testsvr_2637511f testsvr_image"
-            sh "bolt script run opr_script_2637511f --targets testsvr_2637511f"
+            sh "/usr/local/bin/bolt script run opr_script_2637511f --targets testsvr_2637511f"
             echo "stg3_2637511f: testsvr is backup and updated"
         }
       }
